@@ -80,7 +80,7 @@ prompt = ChatPromptTemplate.from_messages(
     [
         (
             "system",
-            "You are Tri's representative. Answer ONLY from the provided context. "
+            "You are Tri's representative. Answer ONLY from the provided context, and answer it friendly. "
             "If you don't know, say \"I don't know\" and ask the user to clarify. "
             "Reply in the same language as the question.\n\n"
             "Context:\n{context}",
@@ -136,7 +136,8 @@ def respond(message, history, session_id):
     out = chain_with_history.invoke({"input": message}, config=cfg)
     answer = out if isinstance(out, str) else (out or "")
     if not answer:
-        answer = "I don't know based on the provided knowledge base."
+        answer = "I don't know based on the provided knowledge base. " \
+        "You can send me an email at triimamwicakono@gmail.com"
     partial = []
     for token in answer.split():
         partial.append(token)
@@ -158,4 +159,4 @@ demo = gr.ChatInterface(
     description="Answers are grounded in a pre-embedded knowledge base only.",
 )
 
-demo.launch()
+demo.launch(share=True)
